@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
         //handling each floating action button clicked
         mFabDelete.setOnClickListener(onButtonClick());
         mFabRedfresh.setOnClickListener(onButtonClick());
