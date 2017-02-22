@@ -1,16 +1,17 @@
 package com.ziv.weatherapp;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.ziv.weatherapp.Forcast.ForecastListener;
 import com.ziv.weatherapp.Forcast.ForecastService;
 import com.ziv.weatherapp.models.Forecast;
-import com.ziv.weatherapp.models.ForecastIo;
+import com.ziv.weatherapp.models.ForecastIoResponse;
+import com.ziv.weatherapp.models.realmObjects.RealmForecast;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -18,12 +19,15 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import timber.log.Timber;
 
 
 public class CurrentConditionService extends Service
 {
 
     private static final String TAG = CurrentConditionService.class.getSimpleName();
+    private static final String LAT = "latitude";
+    private static final String LON = "longitude";
 
     @Inject ForecastService forecastService;
 
@@ -31,37 +35,42 @@ public class CurrentConditionService extends Service
     public void onCreate() {
         super.onCreate();
         ((WeatherApplication)getApplication()).getComponent().inject(this);
+
+    }
+
+    public static Intent getForcastIntent(Activity activity, double latitude, double longitude)
+    {
+        Intent intent =  new Intent(activity, CurrentConditionService.class);
+        intent.putExtra(LAT, latitude);
+        intent.putExtra(LON, longitude);
+        return intent;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "Attempting to get current conditions.");
-
+        Timber.d("Attempting to get current conditions.");
+        double latitude = intent.getDoubleExtra(LAT,0);
+        double lontitude = intent.getDoubleExtra(LON,0);
         // Forecast service is an ASYNC call.
         // hard coded to NYC. In prod: Use a location listener to get the GPS coords of the user.
-        forecastService.getForecastFor("40.7146", "-74.0072", new ForecastListener() {
+        forecastService.getForecastFor(String.valueOf(latitude), String.valueOf(lontitude), new ForecastListener() {
             @Override
             public void onForecastLoaded(Forecast forecast) {
 
-                ForecastIo forecastio = (ForecastIo) forecast;
+                ForecastIoResponse forecastio = (ForecastIoResponse) forecast;
                 if(forecast != null) {
-                    Log.d(TAG, "Forecast loaded.");
+                    Timber.d("Forecast loaded.");
                 }
 
                 if(forecastio != null && forecastio.getCurrentData() != null && forecastio.getCurrentData().getIcon() != null) {
-                    // icon options: clear-day, clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night
-                    String icon = forecastio.getCurrentData().getIcon();
-
                     String dateFormat = "MM/dd/yyyy";
                     SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat, Locale.US);
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    ForcastResults forecastResults = realm.createObject(ForcastResults.class);
-                    forecastResults.setDesc(forecastio.getCurrentData().getIcon());
+                    RealmForecast forecastResults = realm.createObject(RealmForecast.class);
+                    forecastResults.setForecast(forecastio, forecastio.getCurrentData().getTime());
                     realm.commitTransaction();
-                    Intent intent = new Intent("custom-event-name");
-                    // You can also include some extra data.
-                    intent.putExtra("message", "This is my message!");
+                    Intent intent = new Intent(Constants.IntentFilters.FORECAST_RECEIVED);
                     LocalBroadcastManager.getInstance(CurrentConditionService.this).sendBroadcast(intent);
 
                 }
@@ -71,7 +80,7 @@ public class CurrentConditionService extends Service
 
             @Override
             public void onForecastFailed(Exception e) {
-                Log.e(TAG, e.getMessage(), e);
+                Timber.e(e.getMessage(), e);
                 stopSelf();
             }
         });

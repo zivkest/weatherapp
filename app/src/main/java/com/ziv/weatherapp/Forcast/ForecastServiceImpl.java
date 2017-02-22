@@ -2,7 +2,7 @@ package com.ziv.weatherapp.Forcast;
 
 import android.os.AsyncTask;
 
-import com.ziv.weatherapp.models.ForecastIo;
+import com.ziv.weatherapp.models.ForecastIoResponse;
 
 import retrofit.RestAdapter;
 
@@ -16,12 +16,12 @@ public class ForecastServiceImpl implements ForecastService {
 
     @Override
     public void getForecastFor(final String latitude, final String longitude, final ForecastListener forecastListener) {
-        new AsyncTask<Void, Void, ForecastIo>() {
+        new AsyncTask<Void, Void, ForecastIoResponse>() {
 
             public Exception e;
 
             @Override
-            protected ForecastIo doInBackground(Void... params) {
+            protected ForecastIoResponse doInBackground(Void... params) {
                 try {
                     return restAdapter.create(ForecastApiService.class).getForecast(latitude, longitude);
                 } catch (Exception e) {
@@ -31,13 +31,13 @@ public class ForecastServiceImpl implements ForecastService {
             }
 
             @Override
-            protected void onPostExecute(ForecastIo forecastIo) {
-                super.onPostExecute(forecastIo);
+            protected void onPostExecute(ForecastIoResponse forecastIoResponse) {
+                super.onPostExecute(forecastIoResponse);
                 if(forecastListener != null) {
                     if(e != null) {
                         forecastListener.onForecastFailed(e);
                     } else {
-                        forecastListener.onForecastLoaded(forecastIo);
+                        forecastListener.onForecastLoaded(forecastIoResponse);
                     }
                 }
             }

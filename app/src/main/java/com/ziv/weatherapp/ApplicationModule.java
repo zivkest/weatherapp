@@ -2,11 +2,10 @@ package com.ziv.weatherapp;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.ziv.weatherapp.Forcast.ForecastService;
 import com.ziv.weatherapp.Forcast.ForecastServiceImpl;
+import com.ziv.weatherapp.utils.Preferences;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -32,8 +31,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public SharedPreferences provideSharedPreferences(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+    public Preferences provideSharedPreferences(Context context) {
+        return Preferences.from(context);
     }
 
     @Provides

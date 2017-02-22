@@ -1,83 +1,64 @@
-package com.ziv.weatherapp.models;
+package com.ziv.weatherapp.models.realmObjects;
 
-import com.google.gson.annotations.SerializedName;
+import com.ziv.weatherapp.models.Data;
 
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
-public class Data
+@RealmClass
+public class RealmData extends RealmObject
 {
-
-    @SerializedName("apparentTemperature")
-    private float mApparentTemperature;
-
-    @SerializedName("cloudCover")
-    private float mCloudCover;
-
-    @SerializedName("dewPoint")
-    private float mDewPoint;
-
-    @SerializedName("humidity")
-    private float mHumidity;
-
-    @SerializedName("icon")
-    private String mIcon;
-
-    @SerializedName("nearestStormBearing")
-    private int mNearestStormBearing;
-
-    @SerializedName("nearestStormDistance")
-    private int mNearestStormDistance;
-
-    @SerializedName("ozone")
-    private float mOzone;
-
-    @SerializedName("precipIntensity")
-    private float mPrecipIntensity;
-
-    @SerializedName("precipProbability")
-    private float mPrecipProbability;
-
-    @SerializedName("pressure")
-    private float mPressure;
-
-    @SerializedName("summary")
-    private String mSummary;
-
-    @SerializedName("temperature")
-    private float mTemperature;
-
-    @SerializedName("temperatureMax")
-    private float mTemperatureMax;
-
-    @SerializedName("temperatureMin")
-    private float mTemperatureMin;
-
     @PrimaryKey
-    @SerializedName("time")
+    private String mId;
     private long mTime;
-
-    @SerializedName("visibility")
+    private float mApparentTemperature;
+    private float mCloudCover;
+    private float mDewPoint;
+    private float mHumidity;
+    private String mIcon;
+    private int mNearestStormBearing;
+    private int mNearestStormDistance;
+    private float mOzone;
+    private float mPrecipIntensity;
+    private float mPrecipProbability;
+    private float mPressure;
+    private String mSummary;
+    private float mTemperature;
+    private float mTemperatureMax;
+    private float mTemperatureMin;
     private float mVisibility;
-
-    @SerializedName("windBearing")
     private int mWindBearing;
-
-    @SerializedName("windSpeed")
     private float mWindSpeed;
 
-    public float getTemperatureMax()
+
+    public void setData(Data data, String id)
     {
-        return mTemperatureMax;
+        this.mApparentTemperature = data.getApparentTemperature();
+        this.mCloudCover = data.getCloudCover();
+        this.mDewPoint = data.getDewPoint();
+        this.mHumidity = data.getHumidity();
+        this.mIcon = data.getIcon();
+        this.mNearestStormBearing = data.getNearestStormBearing();
+        this.mNearestStormDistance = data. getNearestStormDistance();
+        this.mOzone = data.getOzone();
+        this.mPrecipIntensity = data.getPrecipIntensity();
+        this.mPrecipProbability = data.getPrecipProbability();
+        this.mPressure = data.getPressure();
+        this.mSummary = data.getSummary();
+        this.mTemperature = data.getTemperature();
+        this.mTemperatureMax = data.getTemperatureMax();
+        this.mTemperatureMin = data. getTemperatureMin();
+        this.mTime = data. getTime();
+        this.mVisibility = data.getVisibility();
+        this.mWindBearing = data.getWindBearing();
+        this.mWindSpeed = data.getWindSpeed();
     }
 
-    public float getTemperatureMin()
-    {
-        return mTemperatureMin;
-    }
 
-    public String getIcon()
+    public long getTime()
     {
-        return mIcon;
+        return mTime;
     }
 
     public float getApparentTemperature()
@@ -100,6 +81,10 @@ public class Data
         return mHumidity;
     }
 
+    public String getIcon()
+    {
+        return mIcon;
+    }
 
     public int getNearestStormBearing()
     {
@@ -141,9 +126,14 @@ public class Data
         return mTemperature;
     }
 
-    public long getTime()
+    public float getTemperatureMax()
     {
-        return mTime;
+        return mTemperatureMax;
+    }
+
+    public float getTemperatureMin()
+    {
+        return mTemperatureMin;
     }
 
     public float getVisibility()

@@ -33,10 +33,10 @@
         android:layout_alignParentRight="true"
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_backgroundColor="#7003a9f4"
         fab:menu_fab_label="Choose an action"
-        fab:fab_colorNormal="#DA4336"
-        fab:fab_colorPressed="#E75043"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="@color/colorAccent"
         fab:fab_colorRipple="#99FFFFFF"
         fab:fab_showShadow="true"
         fab:menu_labels_colorNormal="#333333"
@@ -51,28 +51,37 @@
         fab:menu_labels_singleLine="true">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab1"
+            android:id="@+id/refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_edit"
-            fab:fab_label="Edit an item"
-            fab:fab_size="mini" />
+            fab:fab_label="@string/refresh"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="#99FFFFFF"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_add"
-            fab:fab_label="Menu item 2"
-            fab:fab_size="mini" />
+            fab:fab_label="@string/add_city"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="#99FFFFFF"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_delete"
-            fab:fab_label="sdfgb"
-            fab:fab_size="mini" />
+            fab:fab_label="Do a third Thing"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="#99FFFFFF"/>
 
     </com.github.clans.fab.FloatingActionMenu>
 

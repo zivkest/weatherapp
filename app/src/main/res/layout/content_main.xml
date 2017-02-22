@@ -12,17 +12,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ziv.weatherapp.MainActivity"
-    tools:showIn="@layout/app_bar_main"
-    android:background="@drawable/background">
-
-    <TextView
-        android:id="@+id/main_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+    tools:showIn="@layout/app_bar_main">
 
     <com.ziv.weatherapp.views.DegreesCard
+        android:background="#50ffffff"
+        android:id="@+id/degrees_card"
         android:elevation="20dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

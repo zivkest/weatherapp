@@ -1,9 +1,11 @@
 package com.ziv.weatherapp;
 
 import android.app.Application;
+import android.content.Intent;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import timber.log.Timber;
 
 public class WeatherApplication extends Application
 {
@@ -18,15 +20,16 @@ public class WeatherApplication extends Application
                 .apiModule(new ApiModule())
                 .build();
 
+        Timber.plant(new Timber.DebugTree());
         // Configure Realm for the application
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
+                .deleteRealmIfMigrationNeeded()
                 .name("weatherApp.realm")
                 .build();
-        //Realm.deleteRealm(realmConfiguration); // Clean slate
+        Realm.deleteRealm(realmConfiguration); // Clean slate
         Realm.setDefaultConfiguration(realmConfiguration); // Make this Realm the default
-        Realm.getDefaultInstance().where(ForcastResults.class);
         // Check the current conditions
-        //startService(new Intent(this, CurrentConditionService.class));
+        startService(new Intent(this, CurrentConditionService.class));
     }
 
     public ApplicationComponent getComponent() {
